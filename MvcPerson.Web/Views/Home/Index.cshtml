@@ -1,0 +1,29 @@
+﻿@model IEnumerable<MvcPerson.DTO.PersonDetails>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Person list: </h2>
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th>Firstname</th>
+        <th>Lastname</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var person in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => person.Firstname)<br />
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => person.Lastname)<br />
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<button class="btn btn-default">@Html.ActionLink("Add Person", "AddPerson", "Person")</button>
