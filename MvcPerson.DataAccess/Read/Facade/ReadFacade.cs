@@ -25,18 +25,27 @@ namespace MvcPerson.DataAccess.Read.Facade
 
         public async Task<bool> Exist(PersonDetails details)
         {
-            var existingDetails = await dbRepo.GetAllQuery().Where(d =>
-                d.Lastname.Equals(details.Lastname, StringComparison.InvariantCultureIgnoreCase) &&
-                d.Firstname.Equals(details.Firstname, StringComparison.InvariantCultureIgnoreCase)).AnyAsync();
+            bool existingDetails = false;
+            if (dbRepo != null)
+            {
+                existingDetails = await dbRepo.GetAllQuery().Where(d =>
+                    d.Lastname.Equals(details.Lastname, StringComparison.InvariantCultureIgnoreCase) &&
+                    d.Firstname.Equals(details.Firstname, StringComparison.InvariantCultureIgnoreCase)).AnyAsync();
 
+            }
             return existingDetails;
         }
 
         public async Task<IEnumerable<PersonDetails>> GetAllPeople()
         {
-            List<Person> ppl = await dbRepo.GetAll();
-            IEnumerable<PersonDetails> detailsList = mapper.Map<List<Person>, List<PersonDetails>>(ppl);
+            IEnumerable<PersonDetails> detailsList = new List<PersonDetails>();
+            if (dbRepo != null && mapper != null)
+            {
+                List<Person> ppl = await dbRepo.GetAll();
+                detailsList = mapper.Map<List<Person>, List<PersonDetails>>(ppl);
+            }
             
+
             return detailsList;
         }
     }
